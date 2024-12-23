@@ -6,6 +6,7 @@ use App\Filament\Resources\OfficeResource\Pages;
 use App\Filament\Resources\OfficeResource\RelationManagers;
 use App\Models\Office;
 use Filament\Forms;
+use Filament\Forms\Get;
 use Filament\Forms\Form;
 use Filament\Forms\Component;
 use Filament\Forms\Components\TextInput;
@@ -45,12 +46,14 @@ class OfficeResource extends Resource
                                         'wheelPxPerZoomLevel' => 60
                                     ])
                                     ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, $record) {
-                                        $latitude = $record->latitude;
-                                        $longitude = $record->longitude;
-                                        //dd($latitude, $longitude);
+                                        if ($record) {
+                                            $latitude = $record->latitude;
+                                            $longitude = $record->longitude;
+                                            //dd($latitude, $longitude);
 
-                                        if ($latitude && $longitude) {
-                                            $set('location', ['lat' => $latitude, 'lng' => $longitude]);
+                                            if ($latitude && $longitude) {
+                                                $set('location', ['lat' => $latitude, 'lng' => $longitude]);
+                                            }
                                         }
                                     })
                                     ->afterStateUpdated(function ($state, Forms\Get $get, Forms\Set $set) {
